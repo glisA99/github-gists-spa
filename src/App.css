@@ -27,6 +27,10 @@
   align-items: center;
 }
 
+.gist-component:hover {
+  cursor: pointer;
+}
+
 .avatar-block {
   height: 100%;
   width: 80px;
@@ -72,13 +76,31 @@
 
 .pagination-button {
   margin-left: 5px;
-  background-color: rgba(255, 255, 255, 0.674);
+  background-color: rgba(239, 237, 237, 0.674);
   border: 0.5px solid rgba(202, 198, 198, 0.721);
   border-radius: 15%;
   width: 30px;
   height: 30px;
 }
 
+.disabled-button {
+  background: #fff;
+  color: #ccc;
+  cursor: no-drop;
+}
+
+.disabled-button:hover {
+  cursor: default !important;
+}
+
 .pagination-button:hover {
   cursor: pointer;
+}
+
+.selected-gist-text {
+  color: aqua;
+}
+
+.selected-gist-avatar {
+  filter: brightness(50%);
 }

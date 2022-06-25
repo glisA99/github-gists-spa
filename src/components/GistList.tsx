@@ -1,10 +1,8 @@
 import React from 'react';
 import { fetchGists } from '../api/gists-api';
-import { FixedSizeList as List } from 'react-window';
 import { GistComponent } from './Gist';
 import { Pagination } from './Pagination';
-
-const DISPLAY_COUNT = 30;
+import VirtualizedList from './VirtualizedList';
 
 export type Gist = {
     id: string,
@@ -45,23 +43,34 @@ export const GistList:React.FC = () => {
    
     const [gists,setGists] = React.useState<Array<Gist>>([]);
     const [page,setPage] = React.useState<number | undefined>(undefined);
-    const [error,setError] = React.useState<boolean>(false);
+    const [loading,setLoading] = React.useState<boolean>(true);
 
     React.useEffect(() => {
-        const fetch = async () => {
-            const gists = await fetchGists(page || 1);
-            if (gists === false) {
-                setError(true);
-                return
-            }
-            setGists(gists);
-            setPage(page || 1); 
-            if (error === true) setError(false);
-        }
-        fetch();
+        fetch(page);
     },[page]);
 
-    if (page === undefined) return (
+    const fetch = async (page: number = 1) => {
+        setLoading(true);
+        const gists = await fetchGists(page);
+        if (gists === false) {
+            return
+        }
+        setGists(gists);
+        setPage(page || 1); 
+        setLoading(false);
+    }
+
+    const onNextClick = () => {
+        if (page === undefined) return;
+        fetch(page + 1);
+    }
+
+    const onPreviousClick = async () => {
+        if (page === undefined) return;
+        fetch(page - 1);
+    }
+
+    if (loading) return (
         <div className='loading-wide-block'>
             <p><i>Loading...</i></p>
         </div>
@@ -70,34 +79,14 @@ export const GistList:React.FC = () => {
     return (
         <React.Fragment>
             <div id='gists-block'>
-                <List
-                    itemCount={DISPLAY_COUNT}
-                    height={550}
-                    width={"100%"}
-                    itemSize={80}
-                    itemData={gists}
-                    className="virtualized-list"
-                    layout='vertical'
-                    overscanCount={4}
-                >
-                    {({ index, data, style }) => {
-                        return (
-                            <GistComponent 
-                                gists={data} 
-                                index={index} 
-                                key={data[index].id} 
-                                style={style}
-                            />
-                        )
-                    }}
-                </List>
+                <VirtualizedList gists={gists} />
             </div>
             <div className="footer">
                 <Pagination 
                     disabledNext={false}
-                    disabledPrevious={false}
-                    onNextClick={() => {}}
-                    onPreviousClick={() => {}}
+                    disabledPrevious={page === 1}
+                    onNextClick={onNextClick}
+                    onPreviousClick={onPreviousClick}
                 />
             </div>
         </React.Fragment>
