@@ -11,6 +11,9 @@ function App() {
       <div className="content-div">
         <GistList />
       </div>
+      <div className="footer">
+
+      </div>
     </div>
   );
 }

@@ -62,7 +62,7 @@ export const GistList:React.FC = () => {
 
     if (page === undefined) return (
         <div className='loading-wide-block'>
-            <p>Loading...</p>
+            <p><i>Loading...</i></p>
         </div>
     )
 
@@ -70,15 +70,22 @@ export const GistList:React.FC = () => {
         <div id='gists-block'>
             <List
                 itemCount={DISPLAY_COUNT}
-                height={500}
+                height={550}
                 width={"100%"}
-                itemSize={100}
+                itemSize={80}
                 itemData={gists}
                 className="virtualized-list"
+                layout='vertical'
+                overscanCount={4}
             >
-                {({ index, data }) => {
+                {({ index, data, style }) => {
                     return (
-                        <GistComponent gists={data} index={index} key={data[index].id} />
+                        <GistComponent 
+                            gists={data} 
+                            index={index} 
+                            key={data[index].id} 
+                            style={style}
+                        />
                     )
                 }}
             </List>

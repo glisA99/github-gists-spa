@@ -23,13 +23,16 @@
   border-bottom: 1px solid grey;
   display: flex;
   flex-direction: row;
-  padding: 5px;
   text-align: center;
+  align-items: center;
 }
 
 .avatar-block {
   height: 100%;
-  width: 50px;
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .loading-wide-block {
@@ -42,4 +45,22 @@
 
 .virtualized-list {
   overflow-x: hidden !important;
+}
+
+.avatar-image {
+  width: 80%;
+  height: 80%;
+}
+
+.content-div {
+  padding: 1%;
+}
+
+.filename {
+  margin-left: 10px;
+}
+
+.footer {
+  width: 100%;
+  height: auto;
 }
