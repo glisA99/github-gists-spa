@@ -2,6 +2,7 @@ import React from 'react';
 import { fetchGists } from '../api/gists-api';
 import { FixedSizeList as List } from 'react-window';
 import { GistComponent } from './Gist';
+import { Pagination } from './Pagination';
 
 const DISPLAY_COUNT = 30;
 
@@ -67,29 +68,39 @@ export const GistList:React.FC = () => {
     )
 
     return (
-        <div id='gists-block'>
-            <List
-                itemCount={DISPLAY_COUNT}
-                height={550}
-                width={"100%"}
-                itemSize={80}
-                itemData={gists}
-                className="virtualized-list"
-                layout='vertical'
-                overscanCount={4}
-            >
-                {({ index, data, style }) => {
-                    return (
-                        <GistComponent 
-                            gists={data} 
-                            index={index} 
-                            key={data[index].id} 
-                            style={style}
-                        />
-                    )
-                }}
-            </List>
-        </div>
+        <React.Fragment>
+            <div id='gists-block'>
+                <List
+                    itemCount={DISPLAY_COUNT}
+                    height={550}
+                    width={"100%"}
+                    itemSize={80}
+                    itemData={gists}
+                    className="virtualized-list"
+                    layout='vertical'
+                    overscanCount={4}
+                >
+                    {({ index, data, style }) => {
+                        return (
+                            <GistComponent 
+                                gists={data} 
+                                index={index} 
+                                key={data[index].id} 
+                                style={style}
+                            />
+                        )
+                    }}
+                </List>
+            </div>
+            <div className="footer">
+                <Pagination 
+                    disabledNext={false}
+                    disabledPrevious={false}
+                    onNextClick={() => {}}
+                    onPreviousClick={() => {}}
+                />
+            </div>
+        </React.Fragment>
     )
 
 }
