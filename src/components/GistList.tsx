@@ -1,6 +1,5 @@
 import React from 'react';
-import { fetchGists } from '../api/gists-api';
-import { GistComponent } from './Gist';
+import { fetchGists, FetchResponse, NavigationLinks } from '../api/gists-api';
 import { Pagination } from './Pagination';
 import VirtualizedList from './VirtualizedList';
 
@@ -11,63 +10,34 @@ export type Gist = {
     [key: string]: any
 }
 
-// state shaped like record (lookup-table) KEY: gist_id -> VALUE: Gist
-// type GistsState = Record<string,Gist> & Iterable<Gist>;
-
-// const initialGistsState:GistsState = {
-//     [Symbol.iterator]: function factory() {
-//         const self = this;
-//         const keys = Object.keys(self);
-//         var count = 0;
-//         return {
-//             next: function() {
-//                 if (count < keys.length) return {
-//                     value: self[keys[count++]],
-//                     done: false
-//                 }
-//                 return {
-//                     value: undefined,
-//                     done: true
-//                 }
-//             }
-//         }
-//     }
-// }
-
-// const mergeState = (newRecord: any):GistsState => {
-//     newRecord[Symbol.iterator] = initialGistsState[Symbol.iterator];
-//     return newRecord;
-// } 
+type State = { gists: Array<Gist>, links: NavigationLinks };
 
 export const GistList:React.FC = () => {
    
-    const [gists,setGists] = React.useState<Array<Gist>>([]);
-    const [page,setPage] = React.useState<number | undefined>(undefined);
+    const [state,setState] = React.useState<State>({} as State);
+    const [page,setPage] = React.useState<number>(1);
     const [loading,setLoading] = React.useState<boolean>(true);
 
     React.useEffect(() => {
         fetch(page);
     },[page]);
 
-    const fetch = async (page: number = 1) => {
+    const fetch = async (_page: number = 1) => {
         setLoading(true);
-        const gists = await fetchGists(page);
-        if (gists === false) {
+        const response:FetchResponse = await fetchGists(_page);
+        if (response === false) {
+            // no specific requirement for handling errors
             return
         }
-        setGists(gists);
-        setPage(page || 1); 
+        setState({ 
+            gists: response.gists,
+            links: response.navigationLinks
+        });
         setLoading(false);
     }
 
-    const onNextClick = () => {
-        if (page === undefined) return;
-        fetch(page + 1);
-    }
-
-    const onPreviousClick = async () => {
-        if (page === undefined) return;
-        fetch(page - 1);
+    const goToPage = (pageNumber: number) => {
+        setPage(pageNumber);
     }
 
     if (loading) return (
@@ -79,14 +49,17 @@ export const GistList:React.FC = () => {
     return (
         <React.Fragment>
             <div id='gists-block'>
-                <VirtualizedList gists={gists} />
+                <VirtualizedList gists={state.gists} />
             </div>
             <div className="footer">
                 <Pagination 
-                    disabledNext={false}
-                    disabledPrevious={page === 1}
-                    onNextClick={onNextClick}
-                    onPreviousClick={onPreviousClick}
+                    // alternatively  use page === state.links.last.pageNumber 
+                    disabledNext={state.links.next === undefined}
+                    // alternatively use page === 1
+                    disabledPrevious={state.links.prev === undefined}
+                    goToPage={goToPage}
+                    currentPage={page}
+                    numberOfPages={state.links.last ? state.links.last.pageNumber : page}
                 />
             </div>
         </React.Fragment>
