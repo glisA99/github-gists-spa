@@ -1,4 +1,4 @@
-# KROON - TASK 2
+# GITHUB GISTS - Sample SPA that fetches and displays recent gists using pagination
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
