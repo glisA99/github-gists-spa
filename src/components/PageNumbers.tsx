@@ -11,7 +11,7 @@ export const PageNumbersNavigation:React.FC<IPageNumbersNavigationProps> = ({ cu
     if (numberOfPages <= 5) {
         const arr = Array.from(Array(5), (_, index) => index + 1);
         return <>
-            {arr.map(value => <PageNumber value={value} onClick={() => null} current={value == currentPage} />)}
+            {arr.map(value => <PageNumber value={value} onClick={onPageClick} current={value == currentPage} />)}
         </>
     }
 
@@ -19,9 +19,23 @@ export const PageNumbersNavigation:React.FC<IPageNumbersNavigationProps> = ({ cu
 
     return (
         <React.Fragment>
-            {pagination.start && <><PageNumber value={1} onClick={onPageClick} current={1 == currentPage} />...</>}
-            {pagination.center.map(num => <PageNumber value={num} onClick={onPageClick} current={num == currentPage}/>)}
-            {pagination.end && <><PageNumber value={numberOfPages} onClick={onPageClick} current={numberOfPages == currentPage}/></>}
+            {pagination.start && <>
+                <PageNumber 
+                    value={1} 
+                    onClick={onPageClick} 
+                    current={1 == currentPage} 
+                />
+                <span className='page-nav-span'>...</span>
+            </>}
+            {pagination.center.map(num => <PageNumber value={num} key={num} onClick={onPageClick} current={num == currentPage}/>)}
+            {pagination.end && <>
+                <span className='page-nav-span'>...</span>
+                <PageNumber 
+                    value={numberOfPages} 
+                    onClick={onPageClick} 
+                    current={numberOfPages == currentPage}
+                />
+            </>}
         </React.Fragment>
     )
 }
@@ -34,11 +48,11 @@ interface IPageNumberProps {
     current: boolean
 }
 
-const PageNumber:React.FC<IPageNumberProps> = ({ value, onClick }) => {
+const PageNumber:React.FC<IPageNumberProps> = ({ value, onClick, current }) => {
 
     return (
         <span
-            className='page-nav-span'
+            className={`page-nav-span ${current && "page-active"} clickable`}
             onClick={() => onClick(value)}
         >
             {value}

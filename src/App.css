@@ -104,3 +104,34 @@
 .selected-gist-avatar {
   filter: brightness(50%);
 }
+
+.page-nav-span {
+  color: rgb(54, 184, 240);
+  margin-right: 2px;
+  margin-left: 2px;
+}
+
+.page-active {
+  color: black !important;
+}
+
+.clickable:hover {
+  cursor: pointer;
+}
+
+#fade-in-image {
+  position: fixed;
+  left: calc(50% - 100px);
+  top: calc(50% - 100px);
+  width: 200px;
+  height: 200px;
+  display: none;
+  animation: fadeInOut 2s;
+  /* animation-fill-mode: both;   */
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}

@@ -11,6 +11,7 @@ function App() {
       <div className="content-div">
         <GistList />
       </div>
+      <div id="fade-in-image" />
     </div>
   );
 }

@@ -15,7 +15,7 @@ export const GistComponent:React.FC<IGistComponentProps> = ({ gists, index, styl
     const gist = gists[index];
     const keys = Object.keys(gist.files);
 
-    const onGistClick = () => onSelect(gist.id);
+    const onGistClick = () => onSelect(gist.id,gist.owner.avatar_url);
 
     return (
         <div 
