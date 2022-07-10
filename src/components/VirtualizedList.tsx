@@ -34,7 +34,7 @@ export const VirtualizedList:React.FC<IVirtualizedListProps> = ({ gists }) => {
     return (
         <List
             itemCount={DISPLAY_COUNT}
-            height={550}
+            height={500}
             width={"100%"}
             itemSize={80}
             itemData={gists}
