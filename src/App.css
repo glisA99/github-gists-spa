@@ -135,3 +135,43 @@
   50% { opacity: 1; }
   100% { opacity: 0; }
 }
+
+.navbar {
+  width: 100%;
+  position: sticky;
+  height: 55px;
+  background-color: aliceblue;
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  box-sizing: border-box;
+}
+
+.navbar-item {
+  height: 80%;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 5px;
+  margin-right: 5px;
+  min-width: 100px;
+  box-sizing: border-box;
+  border: 1px solid grey;
+  color: rgb(82, 82, 82);
+  background-color: white;
+  border-radius: 10px;
+}
+
+.navbar-item:hover {
+  cursor: pointer;
+  background-color: whitesmoke;
+}
+
+.navbar-h {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  margin-right: 40px;
+  font-weight: 700;
+  color: rgb(82, 82, 82);
+}
